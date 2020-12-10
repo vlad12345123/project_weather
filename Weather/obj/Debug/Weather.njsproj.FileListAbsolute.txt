@@ -1,0 +1,2 @@
+C:\Users\vzezj\source\repos\Weather\Weather\obj\Debug\Weather.njsprojAssemblyReference.cache
+C:\Users\vzezj\source\repos\Weather\Weather\bin\Microsoft.NodejsTools.WebRole.dll
