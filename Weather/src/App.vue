@@ -1,23 +1,18 @@
 <template>
-    <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+    <div id="app"> 
         <main>
+
             <div class="search-box">
-                <input type="text"
-                       class="search-bar"
-                       placeholder="Search..."
-                       v-model="query"
-                       @keypress="fetchWeather" />
+                <input type="text" class="search-bar" placeholder="Enter city name"  v-model="inputCity"  @keypress="Weather" />
             </div>
 
-            <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+            <div class="weather-wrap">
                 <div class="location-box">
-                    <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-                    <div class="date">{{ dateBuilder() }}</div>
-                </div>
+                    <div class="location">{{ weather.name }}</div>
+            </div>
 
                 <div class="weather-box">
-                    <div class="temp">{{ Math.round(weather.main.temp) }}K</div>
-                    <div class="weather">{{ weather.weather[0].main }}</div>
+                    <div class="temp">{{ Math.round(weather.main.temp) - 273 }}C</div>
                 </div>
 
             </div>
@@ -31,43 +26,27 @@
 
 <script>
 
-    export default { 
+    export default {
         name: 'app',
 
         data() {
             return {
-                api_key: '6787da7b9818dce19a11feb79e91ca86',
-                url_base: 'https://api.openweathermap.org/data/2.5/',
-                query: '',
-                weather: {}
+                url: 'https://api.openweathermap.org/data/2.5/', key: '6787da7b9818dce19a11feb79e91ca86',
+                inputCity: '', weather: {}
             }
         },
 
         methods: {
 
-            fetchWeather(e) {
-                if (e.key == "Enter") {
-                    fetch(`${this.url_base}weather?q=${this.query}&appid=${this.api_key}`)
-                        .then(res => {
-                            return res.json();
-                        }).then(this.setResults);
+            Weather(param) {
+                if (param.key == "Enter") {
+                    fetch(`${this.url_base}weather?q=${this.inputCity}&appid=${this.key}`).then(res => { return res.json(); }).then(this.Info);
                 }
             },
 
-            setResults(results) {
+            Info(results) {
                 this.weather = results;
             },
-
-            dateBuilder() {
-                let d = new Date();
-                let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                let day = days[d.getDay()];
-                let date = d.getDate();
-                let month = months[d.getMonth()];
-                let year = d.getFullYear();
-                return `${day} ${date} ${month} ${year}`;
-            }
 
         }
     }
