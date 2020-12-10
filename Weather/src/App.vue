@@ -1,15 +1,15 @@
 <template>
-    <div id="app"> 
+    <div id="app">
         <main>
 
             <div class="search-box">
-                <input type="text" class="search-bar" placeholder="Enter city name"  v-model="inputCity"  @keypress="Weather" />
+                <input type="text" class="search-bar" placeholder="Enter city name" v-model="inputCity" @keypress="Weather" />
             </div>
 
-            <div class="weather-wrap">
+            <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
                 <div class="location-box">
                     <div class="location">{{ weather.name }}</div>
-            </div>
+                </div>
 
                 <div class="weather-box">
                     <div class="temp">{{ Math.round(weather.main.temp) - 273 }}C</div>
@@ -38,9 +38,9 @@
 
         methods: {
 
-            Weather(param) {
-                if (param.key == "Enter") {
-                    fetch(`${this.url_base}weather?q=${this.inputCity}&appid=${this.key}`).then(res => { return res.json(); }).then(this.Info);
+            Weather(e) {
+                if (e.key == "Enter") {
+                    fetch(`${this.url}weather?q=${this.inputCity}&appid=${this.key}`).then(result => { return result.json(); }).then(this.Info);
                 }
             },
 
@@ -58,21 +58,15 @@
 
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
     body {
-        font-family: 'montserrat', sans-serif;
+        font-family: 'Comic Sans MS';
     }
 
     #app {
         background-image: url('assets/city.jpg');
-        background-size: cover;
         background-position: bottom;
-        transition: 0.4s;
+        background-size: cover;
     }
 
 
@@ -84,7 +78,7 @@
 
     .search-box {
         width: 100%;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
     }
 
         .search-box .search-bar {
@@ -98,15 +92,7 @@
             background: none;
             box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
             background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 0px 16px 0px 16px;
-            transition: 0.4s;
         }
-
-            .search-box .search-bar:focus {
-                box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
-                background-color: rgba(255, 255, 255, 0.75);
-                border-radius: 16px 0px 16px 0px;
-            }
 
     .location-box .location {
         color: #FFF;
