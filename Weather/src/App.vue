@@ -1,10 +1,11 @@
 <template>
     <div id="app">
         <main>
-
-            <div class="search-box">
-                <input type="text" class="search-bar" placeholder="Enter city name" v-model="inputCity" @keypress="Weather" />
-            </div>
+            <center>
+                <div class="search-box">
+                    <input type="text" class="search-bar" placeholder="Enter city name" v-model="inputCity" @keypress="Weather" />
+                </div>
+            </center>
 
             <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
                 <div class="location-box">
@@ -13,6 +14,13 @@
 
                 <div class="weather-box">
                     <div class="temp">{{ Math.round(weather.main.temp) - 273 }}C</div>
+                </div>
+
+                <div class="weather-additionally-box">
+                    <div class="min-max">Min|Max: {{Math.round(weather.main.temp_min) - 273 }}C | {{ Math.round(weather.main.temp_max) - 273 }}C</div>
+                    <div class="humidity">Humidity: {{ weather.main.humidity }}%</div>
+                    <div class="pressure">Pressure: {{ weather.main.pressure }}mm</div>
+                    <div class="wind">Wind: {{ weather.wind.speed }}km/h</div>
                 </div>
 
             </div>
@@ -25,7 +33,6 @@
 
 
 <script>
-
     export default {
         name: 'app',
 
@@ -38,8 +45,8 @@
 
         methods: {
 
-            Weather(e) {
-                if (e.key == "Enter") {
+            Weather(c) {
+                if (c.key == "Enter") {
                     fetch(`${this.url}weather?q=${this.inputCity}&appid=${this.key}`).then(result => { return result.json(); }).then(this.Info);
                 }
             },
@@ -69,6 +76,10 @@
         background-size: cover;
     }
 
+    * {
+    margin: 0;
+    padding: 0;
+    }
 
     main {
         min-height: 100vh;
@@ -77,7 +88,7 @@
     }
 
     .search-box {
-        width: 100%;
+        width: 50%;
         margin-bottom: 50px;
     }
 
@@ -85,7 +96,6 @@
             display: block;
             width: 100%;
             padding: 15px;
-            color: #313131;
             font-size: 20px;
             border: none;
             outline: none;
@@ -102,14 +112,6 @@
         text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
     }
 
-    .location-box .date {
-        color: #FFF;
-        font-size: 20px;
-        font-weight: 300;
-        font-style: italic;
-        text-align: center;
-    }
-
     .weather-box {
         text-align: center;
     }
@@ -118,7 +120,7 @@
             display: inline-block;
             padding: 10px 25px;
             color: #FFF;
-            font-size: 102px;
+            font-size: 160px;
             font-weight: 900;
             text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
             background-color: rgba(255, 255, 255, 0.25);
@@ -127,12 +129,48 @@
             box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
         }
 
-        .weather-box .weather {
+    .weather-additionally-box{
+            text-align: center;
+            color: #FFF;
+            font-size: 102px;
+            font-weight: 900;
+            text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+            background-color: rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            margin: 40px 0px;
+    }
+
+        .weather-additionally-box .min-max {
             color: #FFF;
             font-size: 48px;
             font-weight: 700;
             font-style: italic;
             text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
         }
+
+        .weather-additionally-box .humidity {
+            color: #FFF;
+            font-size: 48px;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+        }
+           .weather-additionally-box .pressure {
+            color: #FFF;
+            font-size: 48px;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        .weather-additionally-box .wind {
+            color: #FFF;
+            font-size: 48px;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+        }
+
+
 </style>
 
